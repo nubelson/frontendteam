@@ -1,7 +1,13 @@
-import HelloWorld from "./components/HelloWorld";
+// import HelloWorld from "./components/HelloWorld";
+import { BrowserRouter } from "react-router-dom";
+import Routes from "./routes";
 
 const App = () => {
-  return <HelloWorld name="Robério Vasconcelos" />;
+  return (
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  );
 };
 
 export default App;
