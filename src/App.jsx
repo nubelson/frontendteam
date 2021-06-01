@@ -1,12 +1,14 @@
-// import HelloWorld from "./components/HelloWorld";
 import { BrowserRouter } from "react-router-dom";
+import Layout from "./components/Layout";
 import Routes from "./routes";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
+    <Layout>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </Layout>
   );
 };
 
