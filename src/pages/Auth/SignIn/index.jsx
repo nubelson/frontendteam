@@ -9,9 +9,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Container, AuthHeader, useStyles } from "./styles";
+import { useHistory } from "react-router-dom";
+
+import { data } from "../../../services/api";
 
 const SignIn = () => {
+  const { push } = useHistory();
   const styles = useStyles();
+
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
@@ -21,7 +26,20 @@ const SignIn = () => {
   };
 
   const handleSubmit = (email, password) => {
-    console.log({ email, password });
+    const userExists = data.find((user) => {
+      return user.email === email;
+    });
+
+    if (userExists) {
+      if (userExists.password === password) {
+        console.log("Sign in...");
+        push("/home");
+      } else {
+        console.log("Invalid password!");
+      }
+    } else {
+      alert("User not found!");
+    }
 
     handleResetForm();
   };
@@ -32,7 +50,6 @@ const SignIn = () => {
         <Avatar />
         <Typography variant="h2">Please sign in</Typography>
       </AuthHeader>
-
       <FormControl className="form">
         <TextField
           className={styles.input}

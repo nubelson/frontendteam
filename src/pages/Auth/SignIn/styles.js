@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { makeStyles } from "@material-ui/core";
 
 export const Container = styled.div`
+  position: relative;
   background-color: #eeeeee;
   padding: 2rem;
   display: flex;
