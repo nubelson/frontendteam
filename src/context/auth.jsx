@@ -13,7 +13,15 @@ export const AuthProvider = (props) => {
 
     if (userExists) {
       if (userExists.password === password) {
-        setUser(userExists);
+        const { id, email } = userExists;
+
+        const loggedUser = {
+          id,
+          email,
+        };
+
+        setUser(loggedUser);
+        localStorage.setItem("@Auth:user", JSON.stringify(loggedUser));
       } else {
         alert("Invalid credentials!");
       }
@@ -22,8 +30,21 @@ export const AuthProvider = (props) => {
     }
   };
 
+  const signOut = () => {
+    setUser(null);
+    localStorage.clear();
+  };
+
+  const searchLoggedUser = () => {
+    const userExists = localStorage.getItem("@Auth:user");
+
+    if (userExists) {
+      setUser(JSON.parse(userExists));
+    }
+  };
+
   useEffect(() => {
-    console.log("hello world!");
+    searchLoggedUser();
   }, []);
 
   return (
@@ -32,6 +53,7 @@ export const AuthProvider = (props) => {
         signed: !!user,
         user,
         signIn,
+        signOut,
       }}
     >
       {props.children}

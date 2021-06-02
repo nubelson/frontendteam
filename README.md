@@ -36,7 +36,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Design System: Material-UI
 
-### **⚠️2. Create a stateful component for Sign in page.**
+### **✅2. Create a stateful component for Sign in page.**
 
 -
 
@@ -101,14 +101,14 @@ e. Two buttons: “View” and “Star”.
 
 -
 
-### **⚠️15. So far, you probably have have been changing our entry component to your Application manually. This cannot happen in a real project. The user needs a dynamic Application.**
+### **✅15. So far, you probably have have been changing our entry component to your Application manually. This cannot happen in a real project. The user needs a dynamic Application.**
 
 What we want to have is the following use cases:
 • App -> User is logged in -> Repos Page
 • App -> User is not logged in -> Sign In -> User successfully signs in -> Repos Page
 ➔ Try to immplement this Authentication logic, making use of the local storage and conditional rendering.
 
-### **⚠️16. Re-Implement the Authentication logic, using React’s Context Api. Apply the Context Api to connect and share user session among different components that need it. The current page should update accordingly to application state in the Context.**
+### **✅16. Re-Implement the Authentication logic, using React’s Context Api. Apply the Context Api to connect and share user session among different components that need it. The current page should update accordingly to application state in the Context.**
 
 Note: You could also use a React Router to help you change pages. The purpose of this lesson is to show you one use case for Context Api sharing data among different components.
 After that you could try react-router to add a more sophisticated navigation system.

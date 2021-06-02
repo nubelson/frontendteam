@@ -1,5 +1,15 @@
+import { useAuth } from "../../hooks";
+
 const App = () => {
-  return <h1>App</h1>;
+  const { signOut } = useAuth();
+
+  return (
+    <div>
+      <h1>This is my app</h1>
+
+      <button onClick={signOut}>Logout</button>
+    </div>
+  );
 };
 
 export default App;
