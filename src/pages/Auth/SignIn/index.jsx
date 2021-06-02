@@ -1,20 +1,18 @@
-import { useState } from "react";
 import {
   Avatar,
-  FormControl,
-  TextField,
-  FormControlLabel,
-  Checkbox,
   Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  TextField,
   Typography,
 } from "@material-ui/core";
-import { Container, AuthHeader, useStyles } from "./styles";
-import { useHistory } from "react-router-dom";
-
-import { data } from "../../../services/api";
+import { useState } from "react";
+import { useAuth } from "../../../hooks";
+import { AuthHeader, Container, useStyles } from "./styles";
 
 const SignIn = () => {
-  const { push } = useHistory();
+  const { signIn } = useAuth();
   const styles = useStyles();
 
   const [emailValue, setEmailValue] = useState("");
@@ -26,20 +24,7 @@ const SignIn = () => {
   };
 
   const handleSubmit = (email, password) => {
-    const userExists = data.find((user) => {
-      return user.email === email;
-    });
-
-    if (userExists) {
-      if (userExists.password === password) {
-        console.log("Sign in...");
-        push("/home");
-      } else {
-        console.log("Invalid password!");
-      }
-    } else {
-      alert("User not found!");
-    }
+    signIn(email, password);
 
     handleResetForm();
   };
@@ -75,9 +60,6 @@ const SignIn = () => {
           className="checkbox"
           control={<Checkbox />}
           label="Remember me"
-          onChange={(element) => {
-            console.log(element.target.value);
-          }}
         />
 
         <Button
