@@ -5,6 +5,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const signIn = (email, password) => {
     const userExists = data.find((user) => {
@@ -20,8 +21,10 @@ export const AuthProvider = (props) => {
           email,
         };
 
-        setUser(loggedUser);
-        localStorage.setItem("@Auth:user", JSON.stringify(loggedUser));
+        setTimeout(() => {
+          setUser(loggedUser);
+          localStorage.setItem("@Auth:user", JSON.stringify(loggedUser));
+        }, 2000);
       } else {
         alert("Invalid credentials!");
       }
@@ -35,16 +38,20 @@ export const AuthProvider = (props) => {
     localStorage.clear();
   };
 
-  const searchLoggedUser = () => {
+  useEffect(() => {
     const userExists = localStorage.getItem("@Auth:user");
 
     if (userExists) {
-      setUser(JSON.parse(userExists));
+      setTimeout(() => {
+        setUser(JSON.parse(userExists));
+        setLoading(false);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setUser(null);
+        setLoading(false);
+      }, 1000);
     }
-  };
-
-  useEffect(() => {
-    searchLoggedUser();
   }, []);
 
   return (
@@ -52,6 +59,7 @@ export const AuthProvider = (props) => {
       value={{
         signed: !!user,
         user,
+        loading,
         signIn,
         signOut,
       }}
