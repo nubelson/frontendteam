@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { makeStyles } from "@material-ui/core";
 
 export const Container = styled.div`
   position: relative;
@@ -26,8 +25,3 @@ export const AuthHeader = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-export const useStyles = makeStyles({
-  input: {},
-  button: {},
-});

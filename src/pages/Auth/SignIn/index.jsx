@@ -9,24 +9,40 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import { useAuth } from "../../../hooks";
-import { AuthHeader, Container, useStyles } from "./styles";
+import { AuthHeader, Container } from "./styles";
+import * as Yup from "yup";
 
 const SignIn = () => {
   const { signIn } = useAuth();
-  const styles = useStyles();
 
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
-  const handleResetForm = () => {
-    setEmailValue("");
-    setPasswordValue("");
-  };
+  const handleSubmit = async (email, password) => {
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .email("This filed must be an valid email!")
+          .required(),
+        password: Yup.string()
+          .min(8, "This field must have at least 8 char...")
+          .required(),
+      });
 
-  const handleSubmit = (email, password) => {
-    signIn(email, password);
+      await schema.validate(
+        { email, password },
+        {
+          abortEarly: false,
+        }
+      );
 
-    handleResetForm();
+      signIn(email, password);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        // Validation failed
+        console.log(err);
+      }
+    }
   };
 
   return (
@@ -37,7 +53,6 @@ const SignIn = () => {
       </AuthHeader>
       <FormControl className="form">
         <TextField
-          className={styles.input}
           type="email"
           placeholder="Email address"
           value={emailValue}
@@ -47,7 +62,6 @@ const SignIn = () => {
           }}
         />
         <TextField
-          className={styles.input}
           type="password"
           placeholder="Password"
           value={passwordValue}
@@ -66,7 +80,6 @@ const SignIn = () => {
           onClick={() => {
             handleSubmit(emailValue, passwordValue);
           }}
-          className={styles.button}
           variant="contained"
           color="primary"
           fullWidth
