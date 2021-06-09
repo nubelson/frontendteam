@@ -1,4 +1,10 @@
-export const data = [
+import axios from "axios";
+
+export const api = axios.create({
+  baseURL: "https://api.github.com/search",
+});
+
+export const userData = [
   {
     id: 0,
     email: "nubel@me.com",

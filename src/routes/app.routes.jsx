@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import Home from "../pages/App";
-import AppLayout from "../components/Layout/Auth";
+import AppLayout from "../components/Layout/App";
 
 const AppRoutes = () => {
   return (

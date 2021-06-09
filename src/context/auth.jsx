@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { data } from "../services/api";
+import { userData } from "../services/api";
 
 export const AuthContext = createContext({});
 
@@ -8,7 +8,7 @@ export const AuthProvider = (props) => {
   const [loading, setLoading] = useState(true);
 
   const signIn = (email, password) => {
-    const userExists = data.find((user) => {
+    const userExists = userData.find((user) => {
       return user.email === email;
     });
 
