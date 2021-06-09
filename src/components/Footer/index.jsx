@@ -1,8 +1,10 @@
+import { Container } from "./styles";
+
 const Footer = () => {
   return (
-    <div>
+    <Container>
       <p>Footer</p>
-    </div>
+    </Container>
   );
 };
 

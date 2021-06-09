@@ -1,6 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "../../services/api";
-import { Header } from "./styles";
+import {
+  Header,
+  Container,
+  SearchContainer,
+  Heading,
+  Form,
+  Content,
+  ContentWrapper,
+} from "./styles";
+
+import Cards from "../../components/Cards";
 
 const App = () => {
   const [repos, setRepos] = useState([]);
@@ -53,50 +63,54 @@ const App = () => {
           </p>
         </div>
       </Header>
-      <div>
-        <div>
-          <input type="text" value={searchValue} onChange={myOnChange} />
-          <button
-            onClick={() => {
-              getData(searchValue);
-            }}
-          >
-            {" "}
-            {`Search ${searchType}`}{" "}
-          </button>
-        </div>
+      <Container>
+        <SearchContainer>
+          <Heading>
+            <h1>
+              Search Github {searchType === "repositories" ? "Repos" : "Users"}
+            </h1>
+            <p>
+              Search for Github{" "}
+              {searchType === "repositories" ? "repos" : "users"} using the
+              following form
+            </p>
+          </Heading>
+          <Form>
+            <input type="text" value={searchValue} onChange={myOnChange} />
+            <button
+              onClick={() => {
+                getData(searchValue);
+              }}
+            >
+              Search
+            </button>
+            <button
+              onClick={() => {
+                setRepos([]);
+                setUsers([]);
+              }}
+            >
+              Clear
+            </button>
+          </Form>
+        </SearchContainer>
 
-        <div>
-          {repos.length
-            ? repos.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p> {item.name} </p>
-                    <p> {item.description} </p>
-                  </div>
-                );
-              })
-            : null}
+        <Content>
+          <ContentWrapper>
+            {repos.length
+              ? repos.map((item) => {
+                  return <Cards.Repos key={item.id} data={item} />;
+                })
+              : null}
 
-          {users.length
-            ? users.map((user) => {
-                return (
-                  <div key={user.id}>
-                    <img
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                      }}
-                      src={user.avatar_url}
-                      alt={`${user.login} profile`}
-                    />
-                    <p> {user.login} </p>
-                  </div>
-                );
-              })
-            : null}
-        </div>
-      </div>
+            {users.length
+              ? users.map((user) => {
+                  return <Cards.Users key={user.id} data={user} />;
+                })
+              : null}
+          </ContentWrapper>
+        </Content>
+      </Container>
     </>
   );
 };
