@@ -97,17 +97,17 @@ const App = () => {
 
         <Content>
           <ContentWrapper>
-            {repos.length
-              ? repos.map((item) => {
-                  return <Cards.Repos key={item.id} data={item} />;
-                })
-              : null}
+            {(repos.length &&
+              repos.map((item) => {
+                return <Cards.Repos key={item.id} data={item} />;
+              })) ||
+              null}
 
-            {users.length
-              ? users.map((user) => {
-                  return <Cards.Users key={user.id} data={user} />;
-                })
-              : null}
+            {(users.length &&
+              users.map((user) => {
+                return <Cards.Users key={user.id} data={user} />;
+              })) ||
+              null}
           </ContentWrapper>
         </Content>
       </Container>

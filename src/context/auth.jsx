@@ -5,6 +5,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
+  const [favoriteRepos, setFavoriteRepos] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const signIn = (email, password) => {
@@ -21,9 +22,15 @@ export const AuthProvider = (props) => {
           email,
         };
 
+        const favoritesMap = new Map();
+
         setTimeout(() => {
           setUser(loggedUser);
           localStorage.setItem("@Auth:user", JSON.stringify(loggedUser));
+          localStorage.setItem(
+            `@App:${email}`,
+            JSON.stringify(Array.from(favoritesMap))
+          );
         }, 2000);
       } else {
         alert("Invalid credentials!");
@@ -38,14 +45,42 @@ export const AuthProvider = (props) => {
     localStorage.clear();
   };
 
+  //? Repositories
+  const starRepo = (user, repoId) => {
+    const favoriteData = localStorage.getItem(`@App:${user}`);
+    const favoriteMap = new Map(JSON.parse(favoriteData));
+
+    if (favoriteMap.has(repoId)) {
+      favoriteMap.set(repoId, !favoriteMap.get(repoId));
+    } else {
+      favoriteMap.set(repoId, true);
+    }
+
+    localStorage.setItem(
+      `@App:${user}`,
+      JSON.stringify(Array.from(favoriteMap))
+    );
+    setFavoriteRepos(favoriteMap);
+  };
+
   useEffect(() => {
     const userExists = localStorage.getItem("@Auth:user");
 
     if (userExists) {
+      const user = JSON.parse(userExists);
+
       setTimeout(() => {
-        setUser(JSON.parse(userExists));
+        setUser(user);
         setLoading(false);
       }, 1000);
+
+      const favoritesExists = localStorage.getItem(`@App:${user.email}`);
+
+      if (favoritesExists) {
+        const favoriteMap = new Map(JSON.parse(favoritesExists));
+
+        setFavoriteRepos(favoriteMap);
+      }
     } else {
       setTimeout(() => {
         setUser(null);
@@ -62,6 +97,8 @@ export const AuthProvider = (props) => {
         loading,
         signIn,
         signOut,
+        starRepo,
+        favoriteRepos,
       }}
     >
       {props.children}

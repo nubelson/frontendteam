@@ -1,13 +1,25 @@
+import { useState, useEffect } from "react";
 import { StyledCard, CardHeader, CardContainer } from "./styles";
-
-const imageUrl =
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=752&q=80";
+import { useAuth } from "../../hooks";
 
 const Repos = ({ data }) => {
+  const { starRepo, user, favoriteRepos } = useAuth();
+  const [isStared, setIsStared] = useState(false);
+
+  useEffect(() => {
+    if (favoriteRepos.has(data.id)) {
+      if (favoriteRepos.get(data.id)) {
+        setIsStared(true);
+      } else {
+        setIsStared(false);
+      }
+    }
+  }, [favoriteRepos]);
+
   return (
     <StyledCard>
       <CardHeader>
-        <img src={imageUrl} alt="Repository cover" />
+        <img src={data.owner.avatar_url} alt="Repository cover" />
       </CardHeader>
 
       <CardContainer>
@@ -28,10 +40,10 @@ const Repos = ({ data }) => {
           </button>
           <button
             onClick={() => {
-              console.log(`Star repo ${data.id}`);
+              starRepo(user.email, data.id);
             }}
           >
-            Star
+            {isStared ? "Unstar" : "Star"}
           </button>
         </div>
       </CardContainer>
